@@ -17,7 +17,7 @@ const next = jest.fn();
 
 describe("Given a register controller", () => {
   const user: RegisterData = {
-    name: "Paco",
+    username: "Paco",
     password: "1234",
     picture: "pacopicture.png",
   };
@@ -41,15 +41,15 @@ describe("Given a register controller", () => {
       expect(res.json).toHaveBeenCalledWith({
         user: {
           id: userId,
-          name: user.name,
+          username: user.username,
           picture: user.picture,
         },
       });
     });
   });
   describe("When it receives a user with name 'Paco' that exists", () => {
-    test("Then it should next with status 500 and a public message 'User already registered'", async () => {
-      const error = new Error("User already registered");
+    test("Then it should next with status 500 and a public message 'You couldn't register'", async () => {
+      const error = new Error("You couldn't register");
 
       User.create = jest.fn().mockRejectedValueOnce(error);
 
