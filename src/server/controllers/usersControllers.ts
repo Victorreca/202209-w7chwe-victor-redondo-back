@@ -9,18 +9,18 @@ export const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name, password, picture } = req.body as RegisterData;
+  const { username, password, picture } = req.body as RegisterData;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
-      name,
+      username,
       password: hashedPassword,
       picture,
     });
 
-    res.status(201).json({ user: { id: newUser._id, name, picture } });
+    res.status(201).json({ user: { id: newUser._id, username, picture } });
   } catch (error: unknown) {
     const customError = new CustomError(
       (error as Error).message,
