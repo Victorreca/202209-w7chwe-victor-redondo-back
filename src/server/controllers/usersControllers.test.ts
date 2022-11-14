@@ -32,7 +32,6 @@ describe("Given a register controller", () => {
 
       User.create = jest.fn().mockResolvedValueOnce(user);
       const userId = new mongoose.Types.ObjectId();
-      // Bcrypt.hash = jest.fn().mockResolvedValueOnce(user.password);
       User.create = jest.fn().mockResolvedValueOnce({ ...user, _id: userId });
 
       await registerUser(req as Request, res as Response, null);
