@@ -27,9 +27,11 @@ describe("Given a register controller", () => {
   };
 
   describe("When it receives a user with name 'Paco' and password '1234'", () => {
-    test("Then it should invoke its method status with 201 and its method json with the user id and the username", async () => {
+    test("Then it should invoke its method status with 201 and the message 'Paco has been registered'", async () => {
       const expectedStatus = 201;
-      const expectedMessage = { message: "Tutto benne" };
+      const expectedMessage = {
+        message: `${user.username} has been registered`,
+      };
 
       User.create = jest.fn().mockResolvedValueOnce(user);
       const userId = new mongoose.Types.ObjectId();

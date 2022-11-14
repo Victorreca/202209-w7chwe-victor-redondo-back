@@ -14,13 +14,15 @@ export const registerUser = async (
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({
+    const newUser = await User.create({
       username,
       password: hashedPassword,
       picture,
     });
 
-    res.status(201).json({ message: "Tutto benne" });
+    res
+      .status(201)
+      .json({ message: `${newUser.username} has been registered` });
   } catch (error: unknown) {
     const customError = new CustomError(
       (error as Error).message,
