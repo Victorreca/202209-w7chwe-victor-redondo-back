@@ -29,6 +29,7 @@ describe("Given a register controller", () => {
   describe("When it receives a user with name 'Paco' and password '1234'", () => {
     test("Then it should invoke its method status with 201 and its method json with the user id and the username", async () => {
       const expectedStatus = 201;
+      const expectedMessage = { message: "Tutto benne" };
 
       User.create = jest.fn().mockResolvedValueOnce(user);
       const userId = new mongoose.Types.ObjectId();
@@ -37,13 +38,7 @@ describe("Given a register controller", () => {
       await registerUser(req as Request, res as Response, null);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
-      expect(res.json).toHaveBeenCalledWith({
-        user: {
-          id: userId,
-          username: user.username,
-          picture: user.picture,
-        },
-      });
+      expect(res.json).toHaveBeenCalledWith(expectedMessage);
     });
   });
   describe("When it receives a user with name 'Paco' that exists", () => {

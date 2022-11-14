@@ -13,13 +13,13 @@ export const registerUser = async (
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({
+    await User.create({
       username,
       password: hashedPassword,
       picture,
     });
 
-    res.status(201).json({ user: { id: newUser._id, username, picture } });
+    res.status(201).json({ message: "Tutto benne" });
   } catch (error: unknown) {
     const customError = new CustomError(
       (error as Error).message,
