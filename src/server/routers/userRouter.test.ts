@@ -1,6 +1,5 @@
 import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import connectDatabase from "../../database/index";
 import User from "../../database/models/User/User";
@@ -50,7 +49,7 @@ describe("Given a POST /users/register endpoint", () => {
     test("Then it should respond witch code status 500 and the error 'You couldn't register", async () => {
       await User.create({
         username: "paco",
-        password: await bcrypt.hash("1234", 10),
+        password: "1234",
       });
       const requestBody: RegisterData = {
         username: "paco",
@@ -59,12 +58,12 @@ describe("Given a POST /users/register endpoint", () => {
       const expectedStatus = 500;
       const expectedMessage = { error: "You couldn't register" };
 
-      const res = await request(app)
+      const response = await request(app)
         .post("/users/register")
         .send(requestBody)
         .expect(expectedStatus);
 
-      expect(res.body).toStrictEqual(expectedMessage);
+      expect(response.body).toStrictEqual(expectedMessage);
     });
   });
 });
