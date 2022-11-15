@@ -16,7 +16,7 @@ export const generalError = (
   // eslint-disable-next-line no-unused-vars
   next: NextFunction
 ) => {
-  const statusCode = error.statusCode ?? 500;
+  const statusCode = error.statusCode || 500;
   const publicMessage = error.publicMessage || "Something went wrong";
 
   debug(chalk.red(`Error ${error.message}`));
