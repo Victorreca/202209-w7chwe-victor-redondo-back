@@ -3,6 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import type { RegisterData, LoginData, UserTokenPayload } from "./types";
+import { loginError } from "../../CustomError/errors.js";
 import User from "../../database/models/User/User.js";
 import CustomError from "../../CustomError/CustomError.js";
 import environment from "../../loadEnvironment.js";
@@ -46,21 +47,13 @@ export const loginUser = async (
     const user = await User.findOne({ username });
 
     if (!user) {
-      const loginUsernameError = new CustomError(
-        "Username not found",
-        401,
-        "Username not found"
-      );
-      next(loginUsernameError);
+      next(loginError.userNotFound);
+      return;
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
-      const loginPasswordError = new CustomError(
-        "Incorrect password",
-        401,
-        "Incorrect password"
-      );
-      next(loginPasswordError);
+      next(loginError.passwordIncorrect);
+      return;
     }
 
     const tokenPayload: UserTokenPayload = {
